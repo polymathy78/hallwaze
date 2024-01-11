@@ -59,7 +59,7 @@ const App = ({ signOut }) => {
 
   return (
     <View className="App">
-      <Heading level={1}>Hallwaze</Heading>
+      <Heading level={1}>Hall-Waze</Heading>
       <View as="form" margin="3rem 0" onSubmit={createEntry}>
         <Flex direction="row" justifyContent="center">
           <TextField
