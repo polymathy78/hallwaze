@@ -6,9 +6,9 @@ import {
   Button,
   Flex,
   Heading,
+  Image,
   SelectField,
   Text,
-  TextField,
   View,
   withAuthenticator,
 } from '@aws-amplify/ui-react';
@@ -60,7 +60,10 @@ const App = ({ signOut }) => {
 
   return (
     <View className="App">
-      <Heading level={1}>Hall-Waze</Heading>
+      {/* <Heading level={1}>Hall-Waze</Heading> */}
+      <View textAlign="center" backgroundColor="#73c0d3">
+        <Image alt="Hall-Waze logo" src="/hall-waze.png" />
+      </View>
       <View as="form" margin="3rem 0" onSubmit={createEntry}>
         <Flex direction="row" justifyContent="center">
           <SelectField label="Student" name="code">
