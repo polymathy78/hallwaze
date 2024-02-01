@@ -6,6 +6,7 @@ import {
   Button,
   Flex,
   Heading,
+  SelectField,
   Text,
   TextField,
   View,
@@ -62,46 +63,64 @@ const App = ({ signOut }) => {
       <Heading level={1}>Hall-Waze</Heading>
       <View as="form" margin="3rem 0" onSubmit={createEntry}>
         <Flex direction="row" justifyContent="center">
-          <TextField
-            name="code"
-            placeholder="Student Code"
-            label="Student Code"
-            labelHidden
-            variation="quiet"
-            required
-          />
-          <TextField
-            name="destination"
-            placeholder="Student Destination"
-            label="Student Destination"
-            labelHidden
-            variation="quiet"
-            required
-          />
+          <SelectField label="Student" name="code">
+            <option value="Jane Doe">Jane Doe</option>
+            <option value="John Doe">John Doe</option>
+          </SelectField>
+          <SelectField label="Destination" name="destination">
+            <option value="Bathroom">Bathroom</option>
+            <option value="Nurse">Nurse</option>
+            <option value="Main Office">Main Office</option>
+          </SelectField>
           <Button type="submit" variation="primary">
             Submit
           </Button>
         </Flex>
       </View>
       <Heading level={2}>Current Entries</Heading>
-      <View margin="3rem 0">
+      <View margin="1rem">
         {entries.map((entry) => (
           <Flex
             key={entry.id || entry.code}
-            direction="row"
+            direction="column"
             justifyContent="center"
             alignItems="center"
           >
-            <Text as="strong" fontWeight={700}>
-              {entry.code}
-            </Text>
-            <Text as="span">{entry.destination}</Text>
-            <Button
-              variation="link"
-              onClick={() => deleteEntry(entry)}
+            <View
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+              border="1px solid var(--amplify-colors-black)"
+              margin="1rem"
+              padding="1rem"
             >
-              Return
-            </Button>
+              <Flex
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Flex direction="row">
+                  <Text as="strong" fontWeight={700}>
+                    {entry.code}
+                  </Text>
+                  <Text as="span">{entry.destination}</Text>
+                  <Text>
+                    Time:{' '}
+                    {new Date(entry.createdAt).toLocaleTimeString(
+                      'en',
+                      {
+                        timeStyle: 'short',
+                        hour12: true,
+                        timeZone: 'EST',
+                      }
+                    )}
+                  </Text>
+                </Flex>
+                <Button onClick={() => deleteEntry(entry)}>
+                  Return
+                </Button>
+              </Flex>
+            </View>
           </Flex>
         ))}
       </View>
