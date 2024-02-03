@@ -16,6 +16,7 @@ import { listEntries } from './graphql/queries';
 import {
   createEntry as createEntryMutation,
   deleteEntry as deleteEntryMutation,
+  updateEntry as updateEntryMutation,
 } from './graphql/mutations';
 
 const App = ({ signOut }) => {
@@ -29,7 +30,9 @@ const App = ({ signOut }) => {
 
   async function fetchEntries() {
     const apiData = await client.graphql({ query: listEntries });
-    const entriesFromAPI = apiData.data.listEntries.items;
+    const entriesFromAPI = apiData.data.listEntries.items.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
     console.log(entriesFromAPI);
     setEntries(entriesFromAPI);
   }
@@ -47,6 +50,14 @@ const App = ({ signOut }) => {
     });
     fetchEntries();
     event.target.reset();
+  }
+
+  async function updateEntry({ id }) {
+    await client.graphql({
+      query: updateEntryMutation,
+      variables: { input: { id } },
+    });
+    fetchEntries();
   }
 
   async function deleteEntry({ id }) {
@@ -80,7 +91,7 @@ const App = ({ signOut }) => {
           </Button>
         </Flex>
       </View>
-      <Heading level={2}>Current Entries</Heading>
+      {/* <Heading level={2}>Current Entries</Heading> */}
       <View margin="1rem">
         {entries.map((entry) => (
           <Flex
@@ -104,9 +115,11 @@ const App = ({ signOut }) => {
               >
                 <Flex direction="row">
                   <Text as="strong" fontWeight={700}>
-                    {entry.code}
+                    Student: {entry.code}
                   </Text>
-                  <Text as="span">{entry.destination}</Text>
+                  <Text as="span">
+                    Destination: {entry.destination}
+                  </Text>
                   <Text>
                     Time:{' '}
                     {new Date(entry.createdAt).toLocaleTimeString(
@@ -118,10 +131,25 @@ const App = ({ signOut }) => {
                       }
                     )}
                   </Text>
+                  {entry.createdAt === entry.updatedAt ? null : (
+                    <Text>
+                      Returned:{' '}
+                      {new Date(entry.updatedAt).toLocaleTimeString(
+                        'en',
+                        {
+                          timeStyle: 'short',
+                          hour12: true,
+                          timeZone: 'EST',
+                        }
+                      )}
+                    </Text>
+                  )}
                 </Flex>
-                <Button onClick={() => deleteEntry(entry)}>
-                  Return
-                </Button>
+                {entry.createdAt === entry.updatedAt ? (
+                  <Button onClick={() => updateEntry(entry)}>
+                    Return
+                  </Button>
+                ) : null}
               </Flex>
             </View>
           </Flex>
