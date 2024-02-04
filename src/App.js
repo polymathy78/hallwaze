@@ -5,8 +5,8 @@ import { generateClient } from 'aws-amplify/api';
 import { getCurrentUser } from 'aws-amplify/auth';
 import {
   Button,
+  Divider,
   Flex,
-  Heading,
   Image,
   SelectField,
   Text,
@@ -95,6 +95,7 @@ const App = ({ signOut }) => {
         </Flex>
       </View>
       {/* <Heading level={2}>Current Entries</Heading> */}
+      <Divider />
       <View margin="1rem">
         {entries.map((entry) => (
           <Flex
