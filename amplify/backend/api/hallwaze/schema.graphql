@@ -6,4 +6,5 @@ type Entry @model {
   id: ID!
   code: String!
   destination: String!
+  teacher: String!
 }

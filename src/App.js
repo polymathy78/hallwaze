@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import '@aws-amplify/ui-react/styles.css';
 import { generateClient } from 'aws-amplify/api';
+import { getCurrentUser } from 'aws-amplify/auth';
 import {
   Button,
   Flex,
@@ -40,9 +41,11 @@ const App = ({ signOut }) => {
   async function createEntry(event) {
     event.preventDefault();
     const form = new FormData(event.target);
+    const { username } = await getCurrentUser();
     const data = {
       code: form.get('code'),
       destination: form.get('destination'),
+      teacher: username,
     };
     await client.graphql({
       query: createEntryMutation,

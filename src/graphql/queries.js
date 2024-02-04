@@ -7,6 +7,7 @@ export const getEntry = /* GraphQL */ `
       id
       code
       destination
+      teacher
       createdAt
       updatedAt
       __typename
@@ -24,6 +25,7 @@ export const listEntries = /* GraphQL */ `
         id
         code
         destination
+        teacher
         createdAt
         updatedAt
         __typename

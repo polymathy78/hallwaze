@@ -10,6 +10,7 @@ export const createEntry = /* GraphQL */ `
       id
       code
       destination
+      teacher
       createdAt
       updatedAt
       __typename
@@ -25,6 +26,7 @@ export const updateEntry = /* GraphQL */ `
       id
       code
       destination
+      teacher
       createdAt
       updatedAt
       __typename
@@ -40,6 +42,7 @@ export const deleteEntry = /* GraphQL */ `
       id
       code
       destination
+      teacher
       createdAt
       updatedAt
       __typename
