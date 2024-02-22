@@ -83,11 +83,20 @@ const App = ({ signOut }) => {
           <SelectField label="Student" name="code">
             <option value="Jane Doe">Jane Doe</option>
             <option value="John Doe">John Doe</option>
+            <option value="Mavis Lynch">Mavis Lynch</option>
+            <option value="Zane Richardson">Zane Richardson</option>
+            <option value="Allison Guevara">Allison Guevara</option>
+            <option value="Tommy Wilcox">Tommy Wilcox</option>
+            <option value="Ashlyn Doyle">Ashlyn Doyle</option>
           </SelectField>
           <SelectField label="Destination" name="destination">
             <option value="Bathroom">Bathroom</option>
             <option value="Nurse">Nurse</option>
             <option value="Main Office">Main Office</option>
+            <option value="Tucker">Mr. Tucker</option>
+            <option value="Powers">Ms. Powers</option>
+            <option value="Pennington">Ms. Pennington</option>
+            <option value="Hampton">Mr. Hampton</option>
           </SelectField>
           <Button type="submit" variation="primary">
             Submit
