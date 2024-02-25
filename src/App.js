@@ -78,7 +78,7 @@ const App = ({ signOut }) => {
       <View textAlign="center" backgroundColor="#73c0d3">
         <Image alt="Hall-Waze logo" src="/hall-waze.png" />
       </View>
-      <View as="form" margin="3rem 0" onSubmit={createEntry}>
+      <View as="form" margin="2rem 0" onSubmit={createEntry}>
         <Flex direction="row" justifyContent="center">
           <SelectField label="Student" name="code">
             <option value="Jane Doe">Jane Doe</option>
@@ -98,10 +98,15 @@ const App = ({ signOut }) => {
             <option value="Pennington">Ms. Pennington</option>
             <option value="Hampton">Mr. Hampton</option>
           </SelectField>
-          <Button type="submit" variation="primary">
-            Submit
-          </Button>
         </Flex>
+        <Button
+          type="submit"
+          variation="primary"
+          width="25vw"
+          marginTop="2rem"
+        >
+          Submit
+        </Button>
       </View>
       {/* <Heading level={2}>Current Entries</Heading> */}
       <Divider />
