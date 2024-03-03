@@ -20,6 +20,17 @@ import {
   updateEntry as updateEntryMutation,
 } from './graphql/mutations';
 
+const students = [
+  {
+    studentName: 'Jane Doe',
+    studentId: 'janedoe1',
+  },
+  {
+    studentName: 'John Doe',
+    studentId: 'johndoe1',
+  },
+];
+
 const App = ({ signOut }) => {
   const [entries, setEntries] = useState([]);
 
@@ -42,10 +53,15 @@ const App = ({ signOut }) => {
     event.preventDefault();
     const form = new FormData(event.target);
     const { username } = await getCurrentUser();
+    const student = students.find(
+      (student) => student.studentName === form.get('student')
+    );
     const data = {
-      code: form.get('code'),
+      studentName: student.studentName,
+      studentId: student.studentId,
       destination: form.get('destination'),
       teacher: username,
+      teacherId: username,
     };
     await client.graphql({
       query: createEntryMutation,
@@ -80,7 +96,7 @@ const App = ({ signOut }) => {
       </View>
       <View as="form" margin="2rem 0" onSubmit={createEntry}>
         <Flex direction="row" justifyContent="center">
-          <SelectField label="Student" name="code">
+          <SelectField label="Student" name="student">
             <option value="Jane Doe">Jane Doe</option>
             <option value="John Doe">John Doe</option>
             <option value="Mavis Lynch">Mavis Lynch</option>
@@ -133,7 +149,7 @@ const App = ({ signOut }) => {
               >
                 <Flex direction="row">
                   <Text as="strong" fontWeight={700}>
-                    Student: {entry.code}
+                    Student: {entry.studentName}
                   </Text>
                   <Text as="span">
                     Destination: {entry.destination}

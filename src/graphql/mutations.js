@@ -8,9 +8,11 @@ export const createEntry = /* GraphQL */ `
   ) {
     createEntry(input: $input, condition: $condition) {
       id
-      code
+      studentName
+      studentId
       destination
       teacher
+      teacherId
       createdAt
       updatedAt
       __typename
@@ -24,9 +26,11 @@ export const updateEntry = /* GraphQL */ `
   ) {
     updateEntry(input: $input, condition: $condition) {
       id
-      code
+      studentName
+      studentId
       destination
       teacher
+      teacherId
       createdAt
       updatedAt
       __typename
@@ -40,9 +44,11 @@ export const deleteEntry = /* GraphQL */ `
   ) {
     deleteEntry(input: $input, condition: $condition) {
       id
-      code
+      studentName
+      studentId
       destination
       teacher
+      teacherId
       createdAt
       updatedAt
       __typename

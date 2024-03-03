@@ -5,9 +5,11 @@ export const getEntry = /* GraphQL */ `
   query GetEntry($id: ID!) {
     getEntry(id: $id) {
       id
-      code
+      studentName
+      studentId
       destination
       teacher
+      teacherId
       createdAt
       updatedAt
       __typename
@@ -23,9 +25,11 @@ export const listEntries = /* GraphQL */ `
     listEntries(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        code
+        studentName
+        studentId
         destination
         teacher
+        teacherId
         createdAt
         updatedAt
         __typename
