@@ -39,3 +39,34 @@ export const listEntries = /* GraphQL */ `
     }
   }
 `;
+export const entriesByStudentId = /* GraphQL */ `
+  query EntriesByStudentId(
+    $studentId: String!
+    $sortDirection: ModelSortDirection
+    $filter: ModelEntryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    entriesByStudentId(
+      studentId: $studentId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        studentName
+        studentId
+        destination
+        teacher
+        teacherId
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;

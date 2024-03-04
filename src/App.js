@@ -13,7 +13,7 @@ import {
   View,
   withAuthenticator,
 } from '@aws-amplify/ui-react';
-import { listEntries } from './graphql/queries';
+import { listEntries, entriesByStudentId } from './graphql/queries';
 import {
   createEntry as createEntryMutation,
   deleteEntry as deleteEntryMutation,
@@ -39,6 +39,56 @@ const App = ({ signOut }) => {
   }, []);
 
   const client = generateClient();
+
+  async function getTrips(event) {
+    event.preventDefault();
+    console.log("Checking DB for student's trips...");
+    const form = new FormData(event.target);
+    const student = students.find(
+      (student) => student.studentName === form.get('student')
+    );
+
+    if (student) {
+      let studentId = student.studentId;
+
+      const studentEntries = await client.graphql({
+        query: entriesByStudentId,
+        variables: { studentId: studentId },
+      });
+      console.log(studentEntries);
+
+      const sortedEntries =
+        studentEntries.data.entriesByStudentId.items.sort(
+          (a, b) => b.updatedAt - a.updatedAt
+        );
+      console.log(sortedEntries);
+
+      let latestEntry = sortedEntries[0];
+      console.log(latestEntry);
+
+      let latestEntryTime = new Date(latestEntry.updatedAt);
+
+      let latestEntryTimeStamp = latestEntryTime.getTime();
+      console.log('latest entry:', latestEntryTimeStamp);
+
+      let currentTime = Date.now();
+      console.log('current time:', currentTime);
+
+      console.log(typeof latestEntryTimeStamp);
+      console.log(typeof currentTime);
+      const timePassed =
+        currentTime / 1000 - latestEntryTimeStamp / 1000;
+      console.log(timePassed);
+
+      if (timePassed < 3600) {
+        console.log('Cant leave');
+      } else {
+        console.log('You may go again!');
+      }
+    } else {
+      console.log('first trip');
+    }
+  }
 
   async function fetchEntries() {
     const apiData = await client.graphql({ query: listEntries });
@@ -94,7 +144,7 @@ const App = ({ signOut }) => {
       <View textAlign="center" backgroundColor="#73c0d3">
         <Image alt="Hall-Waze logo" src="/hall-waze.png" />
       </View>
-      <View as="form" margin="2rem 0" onSubmit={createEntry}>
+      <View as="form" margin="2rem 0" onSubmit={getTrips}>
         <Flex direction="row" justifyContent="center">
           <SelectField label="Student" name="student">
             <option value="Jane Doe">Jane Doe</option>
