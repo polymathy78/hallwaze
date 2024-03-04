@@ -60,47 +60,6 @@ const App = ({ signOut }) => {
 
   const client = generateClient();
 
-  async function getTrips(event) {
-    // event.preventDefault();
-    // console.log("Checking DB for student's trips...");
-    // const form = new FormData(event.target);
-    // const student = students.find(
-    //   (student) => student.studentName === form.get('student')
-    // );
-    // if (student) {
-    //   let studentId = student.studentId;
-    //   const studentEntries = await client.graphql({
-    //     query: entriesByStudentId,
-    //     variables: { studentId: studentId },
-    //   });
-    //   console.log(studentEntries);
-    //   const sortedEntries =
-    //     studentEntries.data.entriesByStudentId.items.sort(
-    //       (a, b) => b.updatedAt - a.updatedAt
-    //     );
-    //   console.log(sortedEntries);
-    //   let latestEntry = sortedEntries[0];
-    //   console.log(latestEntry);
-    //   let latestEntryTime = new Date(latestEntry.updatedAt);
-    //   let latestEntryTimeStamp = latestEntryTime.getTime();
-    //   console.log('latest entry:', latestEntryTimeStamp);
-    //   let currentTime = Date.now();
-    //   console.log('current time:', currentTime);
-    //   console.log(typeof latestEntryTimeStamp);
-    //   console.log(typeof currentTime);
-    //   const timePassed =
-    //     currentTime / 1000 - latestEntryTimeStamp / 1000;
-    //   console.log(timePassed);
-    //   if (timePassed < 3600) {
-    //     console.log('Cant leave');
-    //   } else {
-    //     console.log('You may go again!');
-    //   }
-    // } else {
-    //   console.log('first trip');
-    // }
-  }
-
   async function fetchEntries() {
     const apiData = await client.graphql({ query: listEntries });
     const entriesFromAPI = apiData.data.listEntries.items.sort(
@@ -138,13 +97,38 @@ const App = ({ signOut }) => {
     });
     console.log(studentEntries);
 
-    if (studentEntries.length === 0) {
+    if (studentEntries.data.entriesByStudentId.items.length === 0) {
+      console.log("Add student's first trip to DB...");
       await client.graphql({
         query: createEntryMutation,
         variables: { input: data },
       });
     } else {
       console.log('Studnet has left before');
+      console.log(studentEntries);
+      const sortedEntries =
+        studentEntries.data.entriesByStudentId.items.sort(
+          (a, b) => b.updatedAt - a.updatedAt
+        );
+      let latestEntry = sortedEntries[0];
+      let latestEntryTime = new Date(latestEntry.updatedAt);
+      let latestEntryTimeStamp = latestEntryTime.getTime();
+      let currentTime = Date.now();
+      const timePassed =
+        currentTime / 1000 - latestEntryTimeStamp / 1000;
+      console.log('Time passed...', timePassed);
+      if (timePassed < 3600) {
+        let beat = new Audio('/sounds/ding.mp3');
+        beat.play();
+        alert('Cant leave');
+      } else {
+        console.log('You may go again!');
+        console.log("Add student's trip to DB...");
+        await client.graphql({
+          query: createEntryMutation,
+          variables: { input: data },
+        });
+      }
     }
 
     fetchEntries();
