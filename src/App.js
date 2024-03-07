@@ -4,6 +4,7 @@ import '@aws-amplify/ui-react/styles.css';
 import { generateClient } from 'aws-amplify/api';
 import { getCurrentUser } from 'aws-amplify/auth';
 import {
+  Alert,
   Button,
   Divider,
   Flex,
@@ -108,7 +109,7 @@ const App = ({ signOut }) => {
       console.log(studentEntries);
       const sortedEntries =
         studentEntries.data.entriesByStudentId.items.sort(
-          (a, b) => b.updatedAt - a.updatedAt
+          (a, b) => a.updatedAt - b.updatedAt
         );
       let latestEntry = sortedEntries[0];
       let latestEntryTime = new Date(latestEntry.updatedAt);
@@ -120,7 +121,6 @@ const App = ({ signOut }) => {
       if (timePassed < 3600) {
         let beat = new Audio('/sounds/ding.mp3');
         beat.play();
-        alert('Cant leave');
       } else {
         console.log('You may go again!');
         console.log("Add student's trip to DB...");
@@ -158,6 +158,15 @@ const App = ({ signOut }) => {
       <View textAlign="center" backgroundColor="#73c0d3">
         <Image alt="Hall-Waze logo" src="/hall-waze.png" />
       </View>
+      <Alert
+        id="alert_message"
+        variation="error"
+        isDismissible={true}
+        hasIcon={true}
+        heading="Alert!!!"
+      >
+        Student has exceeded hourly allowed visits
+      </Alert>
       <View as="form" margin="2rem 0" onSubmit={createEntry}>
         <Flex direction="row" justifyContent="center">
           <SelectField label="Student" name="student">
