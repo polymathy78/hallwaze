@@ -13,7 +13,7 @@ import {
   View,
   withAuthenticator,
 } from '@aws-amplify/ui-react';
-import { listEntries } from './graphql/queries';
+import { listEntries, entriesByStudentId } from './graphql/queries';
 import {
   createEntry as createEntryMutation,
   deleteEntry as deleteEntryMutation,
@@ -28,6 +28,26 @@ const students = [
   {
     studentName: 'John Doe',
     studentId: 'johndoe1',
+  },
+  {
+    studentName: 'Mavis Lynch',
+    studentId: 'ml1',
+  },
+  {
+    studentName: 'Allison Guevara',
+    studentId: 'ag1',
+  },
+  {
+    studentName: 'Zane Richardson',
+    studentId: 'zr1',
+  },
+  {
+    studentName: 'Tommy Wilcox',
+    studentId: 'tw1',
+  },
+  {
+    studentName: 'Ashlyn Doyle',
+    studentId: 'ad1',
   },
 ];
 
@@ -51,11 +71,18 @@ const App = ({ signOut }) => {
 
   async function createEntry(event) {
     event.preventDefault();
-    const form = new FormData(event.target);
+    //get teacher info
     const { username } = await getCurrentUser();
+
+    //get form data
+    const form = new FormData(event.target);
+
+    //find student name from form
     const student = students.find(
       (student) => student.studentName === form.get('student')
     );
+
+    //get data from form
     const data = {
       studentName: student.studentName,
       studentId: student.studentId,
@@ -63,10 +90,47 @@ const App = ({ signOut }) => {
       teacher: username,
       teacherId: username,
     };
-    await client.graphql({
-      query: createEntryMutation,
-      variables: { input: data },
+
+    const studentEntries = await client.graphql({
+      query: entriesByStudentId,
+      variables: { studentId: student.studentId },
     });
+    console.log(studentEntries);
+
+    if (studentEntries.data.entriesByStudentId.items.length === 0) {
+      console.log("Add student's first trip to DB...");
+      await client.graphql({
+        query: createEntryMutation,
+        variables: { input: data },
+      });
+    } else {
+      console.log('Studnet has left before');
+      console.log(studentEntries);
+      const sortedEntries =
+        studentEntries.data.entriesByStudentId.items.sort(
+          (a, b) => b.updatedAt - a.updatedAt
+        );
+      let latestEntry = sortedEntries[0];
+      let latestEntryTime = new Date(latestEntry.updatedAt);
+      let latestEntryTimeStamp = latestEntryTime.getTime();
+      let currentTime = Date.now();
+      const timePassed =
+        currentTime / 1000 - latestEntryTimeStamp / 1000;
+      console.log('Time passed...', timePassed);
+      if (timePassed < 3600) {
+        let beat = new Audio('/sounds/ding.mp3');
+        beat.play();
+        alert('Cant leave');
+      } else {
+        console.log('You may go again!');
+        console.log("Add student's trip to DB...");
+        await client.graphql({
+          query: createEntryMutation,
+          variables: { input: data },
+        });
+      }
+    }
+
     fetchEntries();
     event.target.reset();
   }
