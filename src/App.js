@@ -4,7 +4,6 @@ import '@aws-amplify/ui-react/styles.css';
 import { generateClient } from 'aws-amplify/api';
 import { getCurrentUser } from 'aws-amplify/auth';
 import {
-  Alert,
   Button,
   Divider,
   Flex,
@@ -17,7 +16,7 @@ import {
 import { listEntries, entriesByStudentId } from './graphql/queries';
 import {
   createEntry as createEntryMutation,
-  deleteEntry as deleteEntryMutation,
+  // deleteEntry as deleteEntryMutation,
   updateEntry as updateEntryMutation,
 } from './graphql/mutations';
 
@@ -143,30 +142,27 @@ const App = ({ signOut }) => {
     fetchEntries();
   }
 
-  async function deleteEntry({ id }) {
-    const newEntries = entries.filter((note) => note.id !== id);
-    setEntries(newEntries);
-    await client.graphql({
-      query: deleteEntryMutation,
-      variables: { input: { id } },
-    });
-  }
+  // async function deleteEntry({ id }) {
+  //   const newEntries = entries.filter((note) => note.id !== id);
+  //   setEntries(newEntries);
+  //   await client.graphql({
+  //     query: deleteEntryMutation,
+  //     variables: { input: { id } },
+  //   });
+  // }
 
   return (
     <View className="App">
-      {/* <Heading level={1}>Hall-Waze</Heading> */}
-      <View textAlign="center" backgroundColor="#73c0d3">
-        <Image alt="Hall-Waze logo" src="/hall-waze.png" />
+      <View backgroundColor="#73c0d3">
+        <Flex justifyContent="end">
+          <Button variation="link" onClick={signOut}>
+            Sign Out
+          </Button>
+        </Flex>
+        <View>
+          <Image alt="Hall-Waze logo" src="/hall-waze.png" />
+        </View>
       </View>
-      <Alert
-        id="alert_message"
-        variation="error"
-        isDismissible={true}
-        hasIcon={true}
-        heading="Alert!!!"
-      >
-        Student has exceeded hourly allowed visits
-      </Alert>
       <View as="form" margin="2rem 0" onSubmit={createEntry}>
         <Flex direction="row" justifyContent="center">
           <SelectField label="Student" name="student">
@@ -262,7 +258,6 @@ const App = ({ signOut }) => {
           </Flex>
         ))}
       </View>
-      <Button onClick={signOut}>Sign Out</Button>
     </View>
   );
 };
