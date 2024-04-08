@@ -13,6 +13,8 @@ import {
   View,
   withAuthenticator,
 } from '@aws-amplify/ui-react';
+
+import students from './students.json';
 import { listEntries, entriesByStudentId } from './graphql/queries';
 import {
   createEntry as createEntryMutation,
@@ -20,36 +22,36 @@ import {
   updateEntry as updateEntryMutation,
 } from './graphql/mutations';
 
-const students = [
-  {
-    studentName: 'Jane Doe',
-    studentId: 'janedoe1',
-  },
-  {
-    studentName: 'John Doe',
-    studentId: 'johndoe1',
-  },
-  {
-    studentName: 'Mavis Lynch',
-    studentId: 'ml1',
-  },
-  {
-    studentName: 'Allison Guevara',
-    studentId: 'ag1',
-  },
-  {
-    studentName: 'Zane Richardson',
-    studentId: 'zr1',
-  },
-  {
-    studentName: 'Tommy Wilcox',
-    studentId: 'tw1',
-  },
-  {
-    studentName: 'Ashlyn Doyle',
-    studentId: 'ad1',
-  },
-];
+// const students = [
+//   {
+//     studentName: 'Jane Doe',
+//     studentId: 'janedoe1',
+//   },
+//   {
+//     studentName: 'John Doe',
+//     studentId: 'johndoe1',
+//   },
+//   {
+//     studentName: 'Mavis Lynch',
+//     studentId: 'ml1',
+//   },
+//   {
+//     studentName: 'Allison Guevara',
+//     studentId: 'ag1',
+//   },
+//   {
+//     studentName: 'Zane Richardson',
+//     studentId: 'zr1',
+//   },
+//   {
+//     studentName: 'Tommy Wilcox',
+//     studentId: 'tw1',
+//   },
+//   {
+//     studentName: 'Ashlyn Doyle',
+//     studentId: 'ad1',
+//   },
+// ];
 
 const App = ({ signOut }) => {
   const [entries, setEntries] = useState([]);
@@ -141,15 +143,6 @@ const App = ({ signOut }) => {
     });
     fetchEntries();
   }
-
-  // async function deleteEntry({ id }) {
-  //   const newEntries = entries.filter((note) => note.id !== id);
-  //   setEntries(newEntries);
-  //   await client.graphql({
-  //     query: deleteEntryMutation,
-  //     variables: { input: { id } },
-  //   });
-  // }
 
   return (
     <View className="App">
