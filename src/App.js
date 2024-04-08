@@ -63,9 +63,9 @@ const App = ({ signOut }) => {
 
   async function fetchEntries() {
     const apiData = await client.graphql({ query: listEntries });
-    const entriesFromAPI = apiData.data.listEntries.items.sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-    );
+    const entriesFromAPI = apiData.data.listEntries.items
+      .filter((i) => i.createdAt === i.updatedAt)
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     console.log(entriesFromAPI);
     setEntries(entriesFromAPI);
   }
