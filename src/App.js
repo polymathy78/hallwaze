@@ -166,13 +166,11 @@ const App = ({ signOut }) => {
       <View as="form" margin="2rem 0" onSubmit={createEntry}>
         <Flex direction="row" justifyContent="center">
           <SelectField label="Student" name="student">
-            <option value="Jane Doe">Jane Doe</option>
-            <option value="John Doe">John Doe</option>
-            <option value="Mavis Lynch">Mavis Lynch</option>
-            <option value="Zane Richardson">Zane Richardson</option>
-            <option value="Allison Guevara">Allison Guevara</option>
-            <option value="Tommy Wilcox">Tommy Wilcox</option>
-            <option value="Ashlyn Doyle">Ashlyn Doyle</option>
+            {students.map((student) => (
+              <option value={student.studentName}>
+                {student.studentName}
+              </option>
+            ))}
           </SelectField>
           <SelectField label="Destination" name="destination">
             <option value="Bathroom">Bathroom</option>
