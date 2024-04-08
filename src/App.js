@@ -22,37 +22,6 @@ import {
   updateEntry as updateEntryMutation,
 } from './graphql/mutations';
 
-// const students = [
-//   {
-//     studentName: 'Jane Doe',
-//     studentId: 'janedoe1',
-//   },
-//   {
-//     studentName: 'John Doe',
-//     studentId: 'johndoe1',
-//   },
-//   {
-//     studentName: 'Mavis Lynch',
-//     studentId: 'ml1',
-//   },
-//   {
-//     studentName: 'Allison Guevara',
-//     studentId: 'ag1',
-//   },
-//   {
-//     studentName: 'Zane Richardson',
-//     studentId: 'zr1',
-//   },
-//   {
-//     studentName: 'Tommy Wilcox',
-//     studentId: 'tw1',
-//   },
-//   {
-//     studentName: 'Ashlyn Doyle',
-//     studentId: 'ad1',
-//   },
-// ];
-
 const App = ({ signOut }) => {
   const [entries, setEntries] = useState([]);
 
@@ -61,6 +30,25 @@ const App = ({ signOut }) => {
   }, []);
 
   const client = generateClient();
+
+  let places = [
+    'Bathroom',
+    'Nurse',
+    'Main office',
+    'Gymnasium',
+    'Guidance Office',
+    'School Psychologist',
+    'Educator Classroom',
+    'Assistant Principal Office',
+    'In School Suspension',
+    'Cafeteria',
+    'Emergency Resource Teacher',
+    'Peer Mediator',
+    'IB Coordinator',
+    'Security Office',
+    'Custodial Staff Office',
+    "Principal's Office",
+  ];
 
   async function fetchEntries() {
     const apiData = await client.graphql({ query: listEntries });
@@ -169,13 +157,11 @@ const App = ({ signOut }) => {
             ))}
           </SelectField>
           <SelectField label="Destination" name="destination">
-            <option value="Bathroom">Bathroom</option>
-            <option value="Nurse">Nurse</option>
-            <option value="Main Office">Main Office</option>
-            <option value="Tucker">Mr. Tucker</option>
-            <option value="Powers">Ms. Powers</option>
-            <option value="Pennington">Ms. Pennington</option>
-            <option value="Hampton">Mr. Hampton</option>
+            {places.map((place) => (
+              <option key={place} value={place}>
+                {place}
+              </option>
+            ))}
           </SelectField>
         </Flex>
         <Button
