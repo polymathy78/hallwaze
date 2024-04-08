@@ -148,10 +148,7 @@ const App = ({ signOut }) => {
         <Flex direction="row" justifyContent="center">
           <SelectField label="Student" name="student">
             {students.map((student) => (
-              <option
-                key={student.studentId}
-                value={student.studentName}
-              >
+              <option value={student.studentName}>
                 {student.studentName}
               </option>
             ))}
@@ -210,7 +207,7 @@ const App = ({ signOut }) => {
                       {
                         timeStyle: 'short',
                         hour12: true,
-                        timeZone: 'EST',
+                        // timeZone: 'EST',
                       }
                     )}
                   </Text>
