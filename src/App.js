@@ -167,7 +167,10 @@ const App = ({ signOut }) => {
         <Flex direction="row" justifyContent="center">
           <SelectField label="Student" name="student">
             {students.map((student) => (
-              <option value={student.studentName}>
+              <option
+                key={student.studentId}
+                value={student.studentName}
+              >
                 {student.studentName}
               </option>
             ))}
