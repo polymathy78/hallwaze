@@ -14,7 +14,7 @@ import {
   withAuthenticator,
 } from '@aws-amplify/ui-react';
 
-import students from './students.json';
+import students from './data/students.json';
 import { listEntries, entriesByStudentId } from './graphql/queries';
 import {
   createEntry as createEntryMutation,
