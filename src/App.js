@@ -5,8 +5,11 @@ import { generateClient } from 'aws-amplify/api';
 import { getCurrentUser } from 'aws-amplify/auth';
 import {
   Button,
+  Card,
+  Collection,
   Divider,
   Flex,
+  Heading,
   Image,
   SelectField,
   Text,
@@ -174,69 +177,56 @@ const App = ({ signOut }) => {
       </View>
       {/* <Heading level={2}>Current Entries</Heading> */}
       <Divider />
-      <View margin="1rem">
-        {entries.map((entry) => (
-          <Flex
-            key={entry.id || entry.code}
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
+      <View margin="1rem"></View>
+      <Collection
+        items={entries}
+        type="list"
+        direction="row"
+        wrap="nowrap"
+      >
+        {(item, index) => (
+          <Card
+            key={index}
+            borderRadius="medium"
+            maxWidth="20rem"
+            variation="outlined"
           >
-            <View
-              direction="column"
-              justifyContent="center"
-              alignItems="center"
-              border="1px solid var(--amplify-colors-black)"
-              margin="1rem"
-              padding="1rem"
-            >
-              <Flex
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-              >
-                <Flex direction="row">
-                  <Text as="strong" fontWeight={700}>
-                    Student: {entry.studentName}
-                  </Text>
-                  <Text as="span">
-                    Destination: {entry.destination}
-                  </Text>
-                  <Text>
-                    Time:{' '}
-                    {new Date(entry.createdAt).toLocaleTimeString(
-                      'en',
-                      {
-                        timeStyle: 'short',
-                        hour12: true,
-                        // timeZone: 'EST',
-                      }
-                    )}
-                  </Text>
-                  {entry.createdAt === entry.updatedAt ? null : (
-                    <Text>
-                      Returned:{' '}
-                      {new Date(entry.updatedAt).toLocaleTimeString(
-                        'en',
-                        {
-                          timeStyle: 'short',
-                          hour12: true,
-                          timeZone: 'EST',
-                        }
-                      )}
-                    </Text>
-                  )}
-                </Flex>
-                {entry.createdAt === entry.updatedAt ? (
-                  <Button onClick={() => updateEntry(entry)}>
-                    Return
-                  </Button>
-                ) : null}
-              </Flex>
+            <View padding="xs">
+              <Heading padding="medium">{item.studentName}</Heading>
+              <Divider padding="xs" />
+              <Text padding="medium">
+                Destination: {item.destination}
+              </Text>
+              <Text>
+                Time:{' '}
+                {new Date(item.createdAt).toLocaleTimeString('en', {
+                  timeStyle: 'short',
+                  hour12: true,
+                  // timeZone: 'EST',
+                })}
+              </Text>
+              {item.createdAt === item.updatedAt ? null : (
+                <Text>
+                  Returned:{' '}
+                  {new Date(item.updatedAt).toLocaleTimeString('en', {
+                    timeStyle: 'short',
+                    hour12: true,
+                    timeZone: 'EST',
+                  })}
+                </Text>
+              )}
+              {item.createdAt === item.updatedAt ? (
+                <Button
+                  variation="primary"
+                  onClick={() => updateEntry(item)}
+                >
+                  Return
+                </Button>
+              ) : null}
             </View>
-          </Flex>
-        ))}
-      </View>
+          </Card>
+        )}
+      </Collection>
     </View>
   );
 };
