@@ -217,6 +217,7 @@ const App = ({ signOut }) => {
               )}
               {item.createdAt === item.updatedAt ? (
                 <Button
+                  marginTop="medium"
                   variation="primary"
                   onClick={() => updateEntry(item)}
                 >
