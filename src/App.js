@@ -182,7 +182,8 @@ const App = ({ signOut }) => {
         items={entries}
         type="list"
         direction="row"
-        wrap="nowrap"
+        wrap="wrap"
+        justifyContent="center"
       >
         {(item, index) => (
           <Card
