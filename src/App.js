@@ -168,7 +168,7 @@ const App = ({ signOut }) => {
         </Flex>
         <Button
           type="submit"
-          variation="primary"
+          backgroundColor="#73c0d3"
           width="25vw"
           marginTop="2rem"
         >
@@ -191,10 +191,11 @@ const App = ({ signOut }) => {
             borderRadius="medium"
             maxWidth="20rem"
             variation="outlined"
+            backgroundColor="#9eafb8"
           >
             <View padding="xs">
               <Heading padding="medium">{item.studentName}</Heading>
-              <Divider padding="xs" />
+              <Divider size="large" padding="xs" />
               <Text padding="medium">
                 Destination: {item.destination}
               </Text>
@@ -219,7 +220,7 @@ const App = ({ signOut }) => {
               {item.createdAt === item.updatedAt ? (
                 <Button
                   marginTop="medium"
-                  variation="primary"
+                  backgroundColor="#73c0d3"
                   onClick={() => updateEntry(item)}
                 >
                   Return
